@@ -1,5 +1,7 @@
 # Begin minimal app
 
+$BADGE
+
 A very simple Begin app with the minimum necessary file structure to get going on Begin
 
 
