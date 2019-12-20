@@ -2,7 +2,7 @@
 
 $BADGE
 
-A very simple Begin app with the minimum necessary file structure to get going on Begin
+A simple app with the minimum necessary file structure to get started on Begin.
 
 
 ## Deploy your own
