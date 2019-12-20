@@ -4,15 +4,13 @@ $BADGE
 
 A very simple Begin app with the minimum necessary file structure to get going on Begin
 
----
 
 ## Deploy your own
 
-Deploy your own clone of this app to Begin!
-
 $DEPLOY
 
----
+Deploy your own clone of this app to Begin!
+
 
 ## Getting started
 - Start the local dev server: `npm start`
