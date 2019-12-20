@@ -7,7 +7,7 @@ A simple app with the minimum necessary file structure to get started on Begin.
 
 ## Deploy your own
 
-$DEPLOY
+[![Deploy to Begin](https://static.begin.com/deploy-to-begin.svg)](https://begin.com/apps/create?template=https://github.com/begin-examples/node-minimal)
 
 Deploy your own clone of this app to Begin!
 
