@@ -1,6 +1,6 @@
-<img src="https://static.begin.app/node-minimal/readme-banner.png" width="561">
+<img src="https://static.begin.app/node-minimal/readme-banner.png" width="553">
 
-\$BADGE
+$BADGE
 
 A simple app with the minimum necessary file structure to get started on Begin.
 
