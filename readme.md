@@ -13,8 +13,6 @@ Deploy your own clone of this app to Begin!
 ## Getting started
 
 - Start the local dev server: `npm start`
-- Lint your code: `npm run lint` (after you've installed a linter, of course)
-- Run your tests: `npm t` (don't forget to write some!)
 
 ## Reference
 
