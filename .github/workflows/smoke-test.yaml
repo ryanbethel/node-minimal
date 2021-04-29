@@ -80,6 +80,7 @@ jobs:
                   VER=`node --version`; echo "Node ver:   $VER"
                   VER=`npm --version`; echo "npm ver:    $VER"
 
+                  
             - name: Create ~/.aws/credentials
               env:
                    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
