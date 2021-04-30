@@ -103,7 +103,7 @@ jobs:
               run: npx arc deploy | tee deploy_output.txt
 
             - name: Find Staging url
-              run: echo "staging_url=$(cat deploy_output.txt | sed 's/Success! Deployed app.*\n\n\s*(https:\/\/[a-zA-Z0-9]+\.execute-api\.[a-zA-Z0-9-]+\.amazonaws\.com)/\1/')" >> $GITHUB_ENV
+              run: echo "staging_url=$(cat deploy_output.txt | sed 's@Success! Deployed app.*\n\n\s*(https:\/\/[a-zA-Z0-9]+\.execute-api\.[a-zA-Z0-9-]+\.amazonaws\.com)@\1@')" >> $GITHUB_ENV
 
             - name: Use it
               run: echo "${{ env.staging_url }}"
