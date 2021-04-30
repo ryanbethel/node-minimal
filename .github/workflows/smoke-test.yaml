@@ -108,16 +108,15 @@ jobs:
             - name: Run Staging Tests
               run: QUIET=1 STAGING_URL=${{ env.staging_url }} npx tape .github/workflows/smoke-tests/staging/**-test.js | npx tap-spec
               
-            # - name: Destroy Infrastructure
-            #   run: npx arc destroy --name bx-${GITHUB_SHA::7} --force
+            - name: Destroy Infrastructure
+              run: npx arc destroy --name bx-${GITHUB_SHA::7} --force
             
-              
             - name: Notify
               uses: homoluctus/slatify@master
-              if: always()
+              if: failure()
               with:
                   type: ${{ job.status }}
-                  job_name: "*Sandbox Tests*"
+                  job_name: "*Staging Tests*"
                   url: ${{ secrets.SLACK_WEBHOOK }}
                   commit: true
                   token: ${{ secrets.GITHUB_TOKEN }}
