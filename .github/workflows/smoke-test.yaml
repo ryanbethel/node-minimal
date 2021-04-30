@@ -89,12 +89,12 @@ jobs:
                   VER=`npm --version`; echo "npm ver:    $VER"
 
                   
-            - name: Create ~/.aws/credentials
-              # TODO: Refactor to use only environment variables instead of creds file 
-              env:
-                   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-              run: mkdir $HOME/.aws && printf "[default]\naws_access_key_id=$AWS_ACCESS_KEY_ID\naws_secret_access_key=$AWS_SECRET_ACCESS_KEY\nregion=us-west-1\n" > $HOME/.aws/credentials && cat $HOME/.aws/credentials
+            # - name: Create ~/.aws/credentials
+            #   # TODO: Refactor to use only environment variables instead of creds file 
+            #   env:
+            #        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            #        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            #   run: mkdir $HOME/.aws && printf "[default]\naws_access_key_id=$AWS_ACCESS_KEY_ID\naws_secret_access_key=$AWS_SECRET_ACCESS_KEY\nregion=us-west-1\n" > $HOME/.aws/credentials && cat $HOME/.aws/credentials
 
             - name: Install
               run: npm install
@@ -109,6 +109,9 @@ jobs:
               run: npx arc hydrate
               
             - name: Deploy Staging 
+              env:
+                AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
               # TODO: changed deployed name to include commit hash to avoid naming collision
               # run: npx arc deploy --name bx-${GITHUB_SHA::7} | tee deploy_output.txt
               run: npx arc deploy | tee deploy_output.txt
@@ -125,6 +128,9 @@ jobs:
               run: QUIET=1 STAGING_URL=${{ env.staging_url }} npx tape .github/workflows/smoke-tests/staging/**-test.js | npx tap-spec
               
             - name: Destroy Infrastructure
+              env:
+                AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
               # TODO: changed deployed name to include commit hash to avoid naming collision
               run: npx arc destroy --name ${{ env.app_name }} --force
             
