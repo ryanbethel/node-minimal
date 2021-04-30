@@ -99,22 +99,18 @@ jobs:
             - name: Hydrate
               run: npx arc hydrate
               
-            - name: Deploy Staging
-              run: npx arc deploy | tee deploy_output.txt
+            - name: Deploy Staging 
+              run: npx arc deploy --name bx-${GITHUB_SHA::7} | tee deploy_output.txt
             
-            - name: test finding url
-              run: echo "$(cat deploy_output.txt | sed -E -n 's@\s*(https:\/\/[a-zA-Z0-9]+\.execute-api\.[a-zA-Z0-9-]+\.amazonaws\.com)@\1@p')"
-
             - name: Find Staging url
-              run: echo "staging_url=$(cat deploy_output.txt | sed 's|Success! Deployed app.*\n\n\s*\(https:\/\/[a-zA-Z0-9]+\.execute-api\.[a-zA-Z0-9-]+\.amazonaws\.com\)|\1|')" >> $GITHUB_ENV
+              run: echo "staging_url=$(cat deploy_output.txt | sed -E -n 's@\s*(https:\/\/[a-zA-Z0-9]+\.execute-api\.[a-zA-Z0-9-]+\.amazonaws\.com)@\1@p')" >> $GITHUB_ENV
 
-            - name: Use it
-              run: echo "${{ env.staging_url }}"
+            - name: Run Staging Tests
+              run: QUIET=1 STAGING_URL=${{ env.staging_url }} npx tape .github/workflows/smoke-tests/staging/**-test.js | npx tap-spec
               
-
-            # - name: Run Staging Tests
-            #   run: QUIET=1 npx tape .github/workflows/smoke-tests/staging/**-test.js | npx tap-spec
-              
+            # - name: Destroy Infrastructure
+            #   run: npx arc destroy --name bx-${GITHUB_SHA::7} --force
+            
               
             - name: Notify
               uses: homoluctus/slatify@master
