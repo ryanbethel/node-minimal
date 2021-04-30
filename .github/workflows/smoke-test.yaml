@@ -88,14 +88,6 @@ jobs:
                   VER=`node --version`; echo "Node ver:   $VER"
                   VER=`npm --version`; echo "npm ver:    $VER"
 
-                  
-            # - name: Create ~/.aws/credentials
-            #   # TODO: Refactor to use only environment variables instead of creds file 
-            #   env:
-            #        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            #        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            #   run: mkdir $HOME/.aws && printf "[default]\naws_access_key_id=$AWS_ACCESS_KEY_ID\naws_secret_access_key=$AWS_SECRET_ACCESS_KEY\nregion=us-west-1\n" > $HOME/.aws/credentials && cat $HOME/.aws/credentials
-
             - name: Install
               run: npm install
 
@@ -117,11 +109,11 @@ jobs:
               run: npx arc deploy | tee deploy_output.txt
             
             - name: Find Staging url
-              # TODO: Request code review on the RegEx to make sure this is not too fragile
+              # TODO: Code review on the RegEx to make sure this is not too fragile
               run: echo "staging_url=$(cat deploy_output.txt | sed -E -n 's@\s*(https:\/\/[a-zA-Z0-9]+\.execute-api\.[a-zA-Z0-9-]+\.amazonaws\.com)@\1@p')" >> $GITHUB_ENV
 
             - name: Find App Name
-              # TODO: Request code review on the RegEx to make sure this is not too fragile
+              # TODO: Code review on the RegEx to make sure this is not too fragile
               run: echo "app_name=$(cat deploy_output.txt | sed -E -n 's@\s*App ⌁ ([a-zA-Z0-9-]+)\s*@\1@p')" >> $GITHUB_ENV
 
             - name: Run Staging Tests
