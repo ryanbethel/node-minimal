@@ -103,14 +103,11 @@ jobs:
               run: npx arc deploy | tee > deploy_output.txt
 
             - name: Find Staging url
-              id: find_staging_url
-              run: echo "::set-env name=STAGING_URL::$(cat deploy_output.txt | grep Success)"
+              run: echo "staging_url=$(cat deploy_output.txt | grep Success)" >> $GITHUB_ENV
 
             - name: Use it
-              run: echo ${{ steps.find_staging_url.outputs.STAGING_URL }}
-
-
-
+              run: echo "${{ env.staging_url }}"
+              
 
             # - name: Run Staging Tests
             #   run: QUIET=1 npx tape .github/workflows/smoke-tests/staging/**-test.js | npx tap-spec
