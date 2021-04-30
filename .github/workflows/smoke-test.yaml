@@ -105,11 +105,14 @@ jobs:
             - name: Find Staging url
               run: echo "staging_url=$(cat deploy_output.txt | sed -E -n 's@\s*(https:\/\/[a-zA-Z0-9]+\.execute-api\.[a-zA-Z0-9-]+\.amazonaws\.com)@\1@p')" >> $GITHUB_ENV
 
+            - name: Find App Name
+              run: echo "app_name=$(cat deploy_output.txt | sed -E -n 's@\s*App ⌁ ([a-zA-Z0-9-]+)\s*@\1@p')" >> $GITHUB_ENV
+
             - name: Run Staging Tests
               run: QUIET=1 STAGING_URL=${{ env.staging_url }} npx tape .github/workflows/smoke-tests/staging/**-test.js | npx tap-spec
               
             - name: Destroy Infrastructure
-              run: npx arc destroy --name bx-${GITHUB_SHA::7} --force
+              run: npx arc destroy --name ${{ env.app_name }} --force
             
             - name: Notify
               uses: homoluctus/slatify@master
