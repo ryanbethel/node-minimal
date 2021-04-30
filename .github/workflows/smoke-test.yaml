@@ -100,7 +100,7 @@ jobs:
               run: npx arc hydrate
               
             - name: Deploy Staging
-              run: npx arc deploy
+              run: npx arc deploy | grep "Success!"
 
             # - name: Run Staging Tests
             #   run: QUIET=1 npx tape .github/workflows/smoke-tests/staging/**-test.js | npx tap-spec
