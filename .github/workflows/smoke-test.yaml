@@ -11,7 +11,6 @@ on:
 
 jobs:
   
-  # TODO: Fix naming collisions on multiple stacks deployed simultaneously
   # TODO: Make GitHub actions template to use with new repos
   # TODO: Setup Sync action to update all the repo workflows from one location (i.e. https://github.com/marketplace/actions/repo-file-sync-action)
   
@@ -106,9 +105,7 @@ jobs:
               env:
                 AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
                 AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-              # TODO: change deployed name to include commit hash to avoid naming collision
               run: npx arc deploy --name bx-${GITHUB_SHA::7} | tee deploy_output.txt
-              # run: npx arc deploy | tee deploy_output.txt
             
             - name: Find Staging url
               # TODO: Code review on the RegEx to make sure this is not too fragile
@@ -125,7 +122,6 @@ jobs:
               env:
                 AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
                 AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-              # TODO: change deployed name to include commit hash to avoid naming collision
               run: npx arc destroy --app ${{ env.app_name }} --name bx-${GITHUB_SHA::7} --force --now
             
             - name: Notify
