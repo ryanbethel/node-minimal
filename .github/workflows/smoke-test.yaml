@@ -24,9 +24,9 @@ jobs:
             - name: Check out repo
               uses: actions/checkout@v1
               #fails if no tests present
+
             - name: check for tests
-              if: hashFiles(".github/workflow/smoke_tests/sandbox/**-tests.js")===''
-              run: echo "no tests found" && exit 1
+              run: ' test -f .github/workflows/smoke_tests/sandbox/**-test.js  || {echo "no tests found"; exit 1;}'
       
   
     sandbox_tests:
