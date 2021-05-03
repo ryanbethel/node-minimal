@@ -13,9 +13,25 @@ jobs:
   
   # TODO: Make GitHub actions template to use with new repos
   # TODO: Setup Sync action to update all the repo workflows from one location (i.e. https://github.com/marketplace/actions/repo-file-sync-action)
+
+    sandbox_tests_exist:
+      # Setup
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [12.x]
+        steps:
+            - name: Check out repo
+              uses: actions/checkout@v1
+              #fails if no tests present
+            - name: check for tests
+              if: hashFiles(".github/workflow/smoke_tests/sandbox/**-tests.js")===''
+              run: echo "no tests found" && exit 1
+      
   
     sandbox_tests:
         # Setup
+        needs: sandbox_tests_exist
         runs-on: ubuntu-latest
         strategy:
             matrix:
@@ -25,12 +41,12 @@ jobs:
             - name: Check out repo
               uses: actions/checkout@v1
               
-            - name: Check file existence
-              id: check_files
-              uses: andstor/file-existence-action@v1
-              with:
-                files: ".github/workflows/smoke_tests/sandbox/**-test.js"
-                allow_failure: true
+            # - name: Check file existence
+            #   id: check_files
+            #   uses: andstor/file-existence-action@v1
+            #   with:
+            #     files: ".github/workflows/smoke_tests/sandbox/**-test.js"
+            #     allow_failure: true
             # - name: File exists
             #   if: steps.check_files.outputs.files_exists == 'true'
             #   # Only runs if all of the files exists
