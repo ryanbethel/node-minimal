@@ -5,7 +5,7 @@ on:
   push:
   pull_request:
   schedule:
-    - cron: '0 6 * * SUN-SAT'
+    - cron: '0 9 * * 0-6'
   workflow_dispatch:
     
 
@@ -24,6 +24,17 @@ jobs:
         steps:
             - name: Check out repo
               uses: actions/checkout@v1
+              
+            - name: Check file existence
+              id: check_files
+              uses: andstor/file-existence-action@v1
+              with:
+                files: ".github/workflows/smoke_tests/sandbox/**-test.js"
+                allow_failure: true
+            # - name: File exists
+            #   if: steps.check_files.outputs.files_exists == 'true'
+            #   # Only runs if all of the files exists
+            #   run: echo All files exists!
 
             - name: Set up Node.js
               uses: actions/setup-node@v1
@@ -74,6 +85,18 @@ jobs:
         steps:
             - name: Check out repo
               uses: actions/checkout@v1
+
+            - name: Check file existence
+              id: check_files
+              uses: andstor/file-existence-action@v1
+              with:
+                files: ".github/workflows/smoke_tests/staging/**-test.js"
+                allow_failure: true
+            # - name: File exists
+            #   if: steps.check_files.outputs.files_exists == 'true'
+            #   # Only runs if all of the files exists
+            #   run: echo All files exists!
+
 
             - name: Set up Node.js
               uses: actions/setup-node@v1
