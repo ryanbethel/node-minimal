@@ -26,7 +26,7 @@ jobs:
               #fails if no tests present
 
             - name: check for tests
-              run: test -f .github/workflows/smoke_tests/sandbox/**-test.js  || exit 1
+              run: test -f .github/workflows/smoke-tests/sandbox/**-test.js  || {echo "no tests found"; exit 1}
       
   
     sandbox_tests:
