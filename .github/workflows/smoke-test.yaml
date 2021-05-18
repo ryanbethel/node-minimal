@@ -2,10 +2,10 @@ name: Smoke Test
 
 # Push tests commits; pull_request tests PR merges
 on: 
-  push:
-  pull_request:
-  schedule:
-    - cron: '0 9 * * 0-6'
+  #push:
+  #pull_request:
+  #schedule:
+  #  - cron: '0 9 * * 0-6'
   workflow_dispatch:
     
 
